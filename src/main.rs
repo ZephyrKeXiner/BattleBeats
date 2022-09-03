@@ -1,4 +1,4 @@
-//#[derive(Debug)]
+#[derive(Debug)]
 
 use std::{io::Read, thread::LocalKey};
 
@@ -13,21 +13,13 @@ impl BattleCharacter{
     
 }
 fn main() {
-    let mut file = std::fs::File::open("data.txt").unwrap();
-    let mut contents = String::new();
-    //let mut vector = Vec::new();
-    file.read_to_string(&mut contents).unwrap();
-
-    let vector = contents.lines().map(|i| {
-        i.parse::<i32>()
-    }).collect::<Vec<_>>();
-    
-    for x in vector {
-        println!("{:?}",x);
-    }
-    //println!("{:?}",vector);
+    let atri = create();
+    println!("{:?}", &atri);
 }
 
-//fn readfile(&x:Vec<i32>) {
-//    
-//}
+fn create()-> BattleCharacter {
+    BattleCharacter { health: 1000, 
+        attack: 300, 
+        defence: 200, 
+        recovery: 100 }
+}
