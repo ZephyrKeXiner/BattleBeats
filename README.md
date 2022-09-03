@@ -1,6 +1,7 @@
 # BattleBeats
 
 #算是第一个Rust项目吧
+
 ~~也是我第一次编辑markdown~~
 
 这是在学Rust的时候编写的一个游戏，非常的粗糙，也没有GUI界面
