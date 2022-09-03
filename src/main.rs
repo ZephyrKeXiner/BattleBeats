@@ -1,6 +1,7 @@
 //#[derive(Debug)]
 
 use std::{io};
+use std::cmp::Ordering; 
 
 struct BattleCharacter {
     name: String,
@@ -42,11 +43,11 @@ fn main() {
     println!("Please choose your character: Atri/Tifa");
     let mut input = String::new();
 
-    io::stdin()
+    io::stdin()         //process user's inputs
         .read_line(&mut input)
         .expect("Fail to read");
 
-    let character = if input.trim() == "atri" {
+    let mut character = if input.trim() == "atri" {
         create_atri()
     }else {
         create_tifa()
@@ -56,7 +57,7 @@ fn main() {
     character.output();
     monsters.output();
 
-    while character.health > 0 && monsters.health > 0 {
+    while character.health > 0 && monsters.health > 0 {         //main process part
         let mut i = 1;
         while i % 2 == 1 {
             let mut user_input = String::new();
@@ -89,11 +90,23 @@ fn main() {
                 println!("The monster remains:{}",monsters.health);
             }
 
+            character.health -= monsters.normal_attack - character.defence;
+            println!("You remains:{}",character.health);
+
             i += 1;
         } 
     }
+
+    match character.health.cmp(&monsters.health) {
+        Ordering::Greater => println!("The monster has been beaten.YOU WIN!"),
+        Ordering::Less => println!("YOU has been beaten.YOU LOSE!"),
+        Ordering::Equal => println!("BOOMMMMM!!!!,nobody win"),
+    }
+    
     
 }
+
+
 
 fn create_atri()-> BattleCharacter {         //Create a atri
     BattleCharacter { 
