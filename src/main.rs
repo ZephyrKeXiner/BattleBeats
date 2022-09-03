@@ -1,8 +1,9 @@
 //#[derive(Debug)]
 
-use std::io;
+use std::{io};
 
 struct BattleCharacter {
+    name: String,
     health: i32,
     normal_attack: i32,
     defence: i32,
@@ -17,16 +18,33 @@ impl BattleCharacter{
         let recoveryy = &self.recovery;
         println!("Your character is {},{},{},{}",healthy,attacky,defencey,recoveryy);
     }
+
+    fn rocket_fists(&self)-> i32 {
+        300
+    }
 }
 
+struct Monsters{
+    health: i32,
+    normal_attack: i32,
+    defence: i32,
+}
 
+impl Monsters{
+    fn output(&self) {       //A debug tool
+        let healthy = &self.health;
+        let attacky = &self.normal_attack;
+        let defencey = &self.defence;
+        println!("Your character is {},{},{}",healthy,attacky,defencey);
+    }
+}
 fn main() {
     println!("Please choose your character: Atri/Tifa");
     let mut input = String::new();
 
     io::stdin()
-    .read_line(&mut input)
-    .expect("Fail to read");
+        .read_line(&mut input)
+        .expect("Fail to read");
 
     let character = if input.trim() == "atri" {
         create_atri()
@@ -34,23 +52,73 @@ fn main() {
         create_tifa()
     };
     
+    let mut monsters = create_monsters(); 
     character.output();
+    monsters.output();
+
+    while character.health > 0 && monsters.health > 0 {
+        let mut i = 1;
+        while i % 2 == 1 {
+            let mut user_input = String::new();
+
+            println!("It's your turn");
+            if character.name == String::from("atri") {
+                println!("You can use:\n1.normal attack\n2.rocket fists");
+            }else {
+                println!("You can use:\n1.normal attack");
+            }
+
+            io::stdin()
+                .read_line(&mut user_input)
+                .expect("Fail to read");
+
+            if character.name == String::from("atri") {
+                if user_input.trim() == "1" || user_input.trim() == "normal attack" {
+                    monsters.health -= character.normal_attack - monsters.defence;
+                }else if user_input.trim() == "2" || user_input.trim() == "rocket fists"{
+                    monsters.health -= character.rocket_fists() - monsters.defence;
+                }
+
+                println!("The monster remains:{}",monsters.health);
+
+            }else {
+                if user_input.trim() == "1" || user_input.trim() == "normal attack" {
+                    monsters.health -= character.normal_attack - monsters.defence;
+                }
+
+                println!("The monster remains:{}",monsters.health);
+            }
+
+            i += 1;
+        } 
+    }
+    
 }
 
 fn create_atri()-> BattleCharacter {         //Create a atri
     BattleCharacter { 
-        health: 1000, 
-        normal_attack: 200, 
-        defence: 100, 
-        recovery: 75
+        name: String::from("atri"),
+        health: 100, 
+        normal_attack: 100, 
+        defence: 10, 
+        recovery: 50
     }
 }
 
 fn create_tifa()-> BattleCharacter {        //Create a tifa
     BattleCharacter { 
-        health: 1300, 
-        normal_attack: 150, 
-        defence: 146, 
-        recovery: 87 
+        name: String::from("tifa"),
+        health: 130, 
+        normal_attack: 70, 
+        defence: 15, 
+        recovery: 40 
+    }
+}
+
+fn create_monsters()-> Monsters {
+    Monsters { 
+        health: 500,
+        normal_attack: 30,
+        defence: 10 
     }
 }
