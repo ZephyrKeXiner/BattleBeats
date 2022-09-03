@@ -1,6 +1,6 @@
-#[derive(Debug)]
+//#[derive(Debug)]
 
-use std::{io::Read, thread::LocalKey};
+//use std::{io::Read, thread::LocalKey};
 
 struct BattleCharacter {
    health: i32,
@@ -10,11 +10,17 @@ struct BattleCharacter {
 }
 
 impl BattleCharacter{
-    
+    fn output(&self) {
+        let healthy = &self.health;
+        let attacky = &self.attack;
+        let defencey = &self.defence;
+        let recoveryy = &self.recovery;
+        println!("Your character is {},{},{},{}",healthy,attacky,defencey,recoveryy);
+    }
 }
 fn main() {
     let atri = create();
-    println!("{:?}", &atri);
+    atri.output();
 }
 
 fn create()-> BattleCharacter {
