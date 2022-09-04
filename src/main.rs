@@ -2,7 +2,6 @@
 
 use std::{io};
 use std::cmp::Ordering; 
-
 struct BattleCharacter {
     name: String,
     health: i32,
@@ -25,20 +24,26 @@ impl BattleCharacter{
     }
 }
 
-struct Monsters{
+struct Enemy{
     health: i32,
     normal_attack: i32,
     defence: i32,
 }
 
-impl Monsters{
+impl Enemy{
     fn output(&self) {       //A debug tool
         let healthy = &self.health;
         let attacky = &self.normal_attack;
         let defencey = &self.defence;
         println!("Your character is {},{},{}",healthy,attacky,defencey);
     }
-}
+
+    fn rain(&self) -> i32 {
+        14
+    }
+}   
+
+
 fn main() {
     println!("Please choose your character: Atri/Tifa");
     let mut input = String::new();
@@ -128,10 +133,14 @@ fn create_tifa()-> BattleCharacter {        //Create a tifa
     }
 }
 
-fn create_monsters()-> Monsters {
-    Monsters { 
-        health: 500,
-        normal_attack: 30,
-        defence: 10 
+fn create_monk()-> Enemy {
+    Enemy { 
+        health: 300,
+        normal_attack: 40,
+        defence: 5
     }
+}
+
+fn create_shaman()-> Enemy {
+    
 }
